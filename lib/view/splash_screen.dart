@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'COVID-19 TRACKER',
+                    'PANDEMIC TRACKER',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white.withOpacity(0.85),

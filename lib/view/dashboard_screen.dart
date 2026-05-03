@@ -23,7 +23,7 @@ class DashboardScreen extends StatelessWidget {
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: const Text('Covid Tracker',
+        title: const Text('CoronaPulse',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         centerTitle: true,
         actions: [

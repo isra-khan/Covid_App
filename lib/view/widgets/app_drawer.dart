@@ -69,7 +69,7 @@ class AppDrawer extends StatelessWidget {
                         color: Colors.white, size: 32),
                   ),
                   const SizedBox(height: 12),
-                  const Text('Covid Tracker',
+                  const Text('CoronaPulse',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
