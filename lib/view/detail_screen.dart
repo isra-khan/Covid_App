@@ -32,43 +32,54 @@ class DetailScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 220,
+            expandedHeight: 240,
             pinned: true,
             backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
+            title: Text(name,
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
+            centerTitle: true,
             flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(name,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
               background: Container(
                 decoration: const BoxDecoration(
                   gradient: AppColors.heroGradient,
                 ),
-                child: Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 40),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
+                child: SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 24),
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 4),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: image.isNotEmpty
-                          ? NetworkImage(image)
-                          : null,
-                      backgroundColor: Colors.white,
-                      child: image.isEmpty
-                          ? const Icon(Icons.flag, size: 36)
-                          : null,
-                    ),
+                        child: CircleAvatar(
+                          radius: 44,
+                          backgroundImage: image.isNotEmpty
+                              ? NetworkImage(image)
+                              : null,
+                          backgroundColor: Colors.white,
+                          child: image.isEmpty
+                              ? const Icon(Icons.flag, size: 32)
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(name,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
+                    ],
                   ),
                 ),
               ),
