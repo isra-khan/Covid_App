@@ -16,7 +16,7 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
       if (!Get.isRegistered<StateServicesController>()) {
         Get.put(StateServicesController(), permanent: true);
       }
-      Get.offNamed(Routes.dashboard);
+      Get.offNamed(Routes.authGate);
     });
   }
 

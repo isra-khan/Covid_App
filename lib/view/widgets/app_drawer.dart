@@ -1,4 +1,5 @@
 import 'package:covidapp/constant/app_theme.dart';
+import 'package:covidapp/controller/auth_controller.dart';
 import 'package:covidapp/view/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,6 +37,8 @@ class AppDrawer extends StatelessWidget {
         Routes.travelAdvisor, Color(0xFF06B6D4)),
     _DrawerEntry(
         Icons.mic_rounded, 'Voice Stats', Routes.voiceStats, Color(0xFF7C3AED)),
+    _DrawerEntry(Icons.location_on_rounded, 'My Country',
+        Routes.personalCountry, AppColors.primary),
   ];
 
   @override
@@ -135,6 +138,50 @@ class AppDrawer extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+            ),
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Material(
+                color: AppColors.danger.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(12),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    if (Get.isRegistered<AuthController>()) {
+                      await Get.find<AuthController>().signOut();
+                    }
+                    Get.offAllNamed(Routes.signIn);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 12),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: AppColors.danger.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(Icons.logout_rounded,
+                              color: AppColors.danger, size: 20),
+                        ),
+                        const SizedBox(width: 14),
+                        const Expanded(
+                          child: Text('Sign out',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.danger)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

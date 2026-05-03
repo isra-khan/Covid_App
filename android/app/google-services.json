@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "381833628392",
+    "firebase_url": "https://crypto-app-tps-default-rtdb.firebaseio.com",
+    "project_id": "crypto-app-tps",
+    "storage_bucket": "crypto-app-tps.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381833628392:android:64c430211a2d66ebf0175d",
+        "android_client_info": {
+          "package_name": "com.example.covidapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADjgVAGUjFvmemGt7T0fEIgykwXtRGk7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381833628392:android:ac5404c786165fa9f0175d",
+        "android_client_info": {
+          "package_name": "com.example.cryptoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADjgVAGUjFvmemGt7T0fEIgykwXtRGk7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -48,8 +48,11 @@ class RiskScoreScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 _card(
                   child: SwitchListTile(
-                    activeColor: AppColors.primary,
                     contentPadding: EdgeInsets.zero,
+                    thumbColor:
+                        WidgetStateProperty.all(AppColors.primary),
+                    activeTrackColor: AppColors.primary.withOpacity(0.4),
+                    inactiveTrackColor: AppColors.primary.withOpacity(0.15),
                     title: const Text('Has comorbidities',
                         style: TextStyle(fontWeight: FontWeight.w600)),
                     subtitle: const Text(

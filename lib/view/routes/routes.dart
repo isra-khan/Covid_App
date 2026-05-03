@@ -12,4 +12,9 @@ class Routes {
   static const String symptomChecker = '/symptomChecker';
   static const String travelAdvisor = '/travelAdvisor';
   static const String voiceStats = '/voiceStats';
+  static const String personalCountry = '/personalCountry';
+  static const String authGate = '/authGate';
+  static const String onboarding = '/onboarding';
+  static const String signIn = '/signIn';
+  static const String signUp = '/signUp';
 }

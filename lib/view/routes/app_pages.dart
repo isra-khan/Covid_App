@@ -1,13 +1,18 @@
 import 'package:covidapp/binding/feature_bindings.dart';
 import 'package:covidapp/binding/splash_binding.dart';
 import 'package:covidapp/binding/state_service_binding.dart';
+import 'package:covidapp/view/auth_gate_screen.dart';
 import 'package:covidapp/view/countries_list_screen.dart';
 import 'package:covidapp/view/dashboard_screen.dart';
 import 'package:covidapp/view/heatmap_screen.dart';
 import 'package:covidapp/view/leaderboard_screen.dart';
 import 'package:covidapp/view/news_screen.dart';
+import 'package:covidapp/view/onboarding_screen.dart';
+import 'package:covidapp/view/personal_country_screen.dart';
 import 'package:covidapp/view/risk_score_screen.dart';
 import 'package:covidapp/view/routes/routes.dart';
+import 'package:covidapp/view/sign_in_screen.dart';
+import 'package:covidapp/view/sign_up_screen.dart';
 import 'package:covidapp/view/splash_screen.dart';
 import 'package:covidapp/view/symptom_checker_screen.dart';
 import 'package:covidapp/view/travel_advisor_screen.dart';
@@ -77,6 +82,30 @@ class AppPages {
       name: Routes.voiceStats,
       page: () => const VoiceStatsScreen(),
       binding: VoiceStatsBinding(),
+    ),
+    GetPage(
+      name: Routes.personalCountry,
+      page: () => const PersonalCountryScreen(),
+      binding: PersonalCountryBinding(),
+    ),
+    GetPage(
+      name: Routes.authGate,
+      page: () => const AuthGateScreen(),
+      binding: AuthBinding(),
+    ),
+    GetPage(
+      name: Routes.onboarding,
+      page: () => const OnboardingScreen(),
+    ),
+    GetPage(
+      name: Routes.signIn,
+      page: () => const SignInScreen(),
+      binding: AuthBinding(),
+    ),
+    GetPage(
+      name: Routes.signUp,
+      page: () => const SignUpScreen(),
+      binding: AuthBinding(),
     ),
   ];
 }

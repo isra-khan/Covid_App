@@ -1,5 +1,7 @@
+import 'package:covidapp/controller/auth_controller.dart';
 import 'package:covidapp/controller/leaderboard_controller.dart';
 import 'package:covidapp/controller/news_controller.dart';
+import 'package:covidapp/controller/personal_country_controller.dart';
 import 'package:covidapp/controller/risk_score_controller.dart';
 import 'package:covidapp/controller/state_services_controller.dart';
 import 'package:covidapp/controller/symptom_checker_controller.dart';
@@ -12,6 +14,19 @@ import 'package:get/get.dart';
 void _ensureStateServices() {
   if (!Get.isRegistered<StateServicesController>()) {
     Get.put(StateServicesController(), permanent: true);
+  }
+}
+
+void ensureAuth() {
+  if (!Get.isRegistered<AuthController>()) {
+    Get.put(AuthController(), permanent: true);
+  }
+}
+
+class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    ensureAuth();
   }
 }
 
@@ -82,5 +97,18 @@ class DashboardBinding extends Bindings {
   @override
   void dependencies() {
     _ensureStateServices();
+    if (!Get.isRegistered<PersonalCountryController>()) {
+      Get.put(PersonalCountryController(), permanent: true);
+    }
+  }
+}
+
+class PersonalCountryBinding extends Bindings {
+  @override
+  void dependencies() {
+    _ensureStateServices();
+    if (!Get.isRegistered<PersonalCountryController>()) {
+      Get.put(PersonalCountryController(), permanent: true);
+    }
   }
 }

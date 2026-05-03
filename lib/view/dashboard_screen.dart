@@ -4,6 +4,7 @@ import 'package:covidapp/view/routes/routes.dart';
 import 'package:covidapp/view/widgets/app_drawer.dart';
 import 'package:covidapp/view/widgets/daily_briefing_card.dart';
 import 'package:covidapp/view/widgets/feature_tile.dart';
+import 'package:covidapp/view/widgets/my_country_card.dart';
 import 'package:covidapp/view/widgets/stat_hero_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -62,6 +63,8 @@ class DashboardScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
               children: [
                 DailyBriefingCard(data: data),
+                const SizedBox(height: 16),
+                const MyCountryCard(),
                 const SizedBox(height: 20),
                 StatHeroCard(data: data),
                 const SizedBox(height: 20),
@@ -154,6 +157,8 @@ class DashboardScreen extends StatelessWidget {
           Routes.travelAdvisor),
       _TileData(Icons.mic_rounded, 'Voice', const Color(0xFF7C3AED),
           Routes.voiceStats),
+      _TileData(Icons.location_on_rounded, 'My Country', AppColors.primary,
+          Routes.personalCountry),
     ];
     return GridView.builder(
       shrinkWrap: true,

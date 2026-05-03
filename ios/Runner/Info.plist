@@ -49,5 +49,14 @@
 	<string>This app uses the microphone for voice-activated COVID stats lookup.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>This app uses speech recognition to interpret your voice queries.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>be.tramckrijte.workmanager.iOSBackgroundProcessingTask</string>
+	</array>
 </dict>
 </plist>

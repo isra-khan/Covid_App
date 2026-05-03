@@ -1,10 +1,28 @@
+import 'package:covidapp/binding/feature_bindings.dart';
 import 'package:covidapp/constant/app_theme.dart';
+import 'package:covidapp/firebase_options.dart';
+import 'package:covidapp/utils/background_worker.dart';
+import 'package:covidapp/utils/notification_service.dart';
 import 'package:covidapp/view/routes/routes.dart';
 import 'package:covidapp/view/routes/app_pages.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:workmanager/workmanager.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  ensureAuth();
+  tz.initializeTimeZones();
+  await NotificationService.init();
+  await Workmanager().initialize(
+    backgroundDispatcher,
+    isInDebugMode: false,
+  );
   runApp(const MyApp());
 }
 

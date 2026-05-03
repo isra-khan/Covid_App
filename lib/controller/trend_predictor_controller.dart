@@ -1,7 +1,7 @@
 import 'package:covidapp/Model/country_model.dart';
 import 'package:covidapp/Model/historical_model.dart';
 import 'package:covidapp/controller/state_services_controller.dart';
-import 'package:covidapp/utils/linear_regression.dart';
+import 'package:covidapp/utils/predictor.dart';
 import 'package:get/get.dart';
 
 class TrendPredictorController extends GetxController {
@@ -22,18 +22,11 @@ class TrendPredictorController extends GetxController {
     try {
       final data = await _service.fetchHistorical(c.country, days: 30);
       historical.value = data;
-      predicted.assignAll(_predictNext7(data.cases));
+      predicted.assignAll(Predictor.predictNext7(data.cases));
     } catch (e) {
       error.value = 'Failed to load historical data.';
     } finally {
       isLoading.value = false;
     }
-  }
-
-  List<double> _predictNext7(List<int> series) {
-    if (series.length < 2) return const [];
-    final ys = series.map((e) => e.toDouble()).toList();
-    final reg = LinearRegression.fit(ys);
-    return List.generate(7, (i) => reg.predict(ys.length + i));
   }
 }
