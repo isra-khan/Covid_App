@@ -1,4 +1,3 @@
-import 'package:covidapp/binding/feature_bindings.dart';
 import 'package:covidapp/constant/app_theme.dart';
 import 'package:covidapp/firebase_options.dart';
 import 'package:covidapp/utils/background_worker.dart';
@@ -11,19 +10,21 @@ import 'package:get/get.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:workmanager/workmanager.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  ensureAuth();
   tz.initializeTimeZones();
-  await NotificationService.init();
-  await Workmanager().initialize(
-    backgroundDispatcher,
-    isInDebugMode: false,
-  );
   runApp(const MyApp());
+
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await NotificationService.init();
+    await Workmanager().initialize(
+      backgroundDispatcher,
+      isInDebugMode: false,
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {
