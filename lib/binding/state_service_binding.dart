@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 class StateServicesBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<StateServicesController>(() => StateServicesController());
+    if (!Get.isRegistered<StateServicesController>()) {
+      Get.put(StateServicesController(), permanent: true);
+    }
   }
 }

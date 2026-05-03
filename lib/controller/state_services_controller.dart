@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:covidapp/Model/casesmodel.dart';
+import 'package:covidapp/Model/country_model.dart';
+import 'package:covidapp/Model/historical_model.dart';
 import 'package:covidapp/constant/app_url.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +10,9 @@ import 'package:get/get.dart';
 class StateServicesController extends GetxController
     with SingleGetTickerProviderMixin {
   RxBool isLoading = true.obs;
-  Rxn<CasesModel> casesModel = Rxn<CasesModel>(); // <-- NEW
+  RxBool isCountriesLoading = false.obs;
+  Rxn<CasesModel> casesModel = Rxn<CasesModel>();
+  RxList<CountryModel> countries = <CountryModel>[].obs;
 
   late final AnimationController controller = AnimationController(
     vsync: this,
@@ -24,7 +28,8 @@ class StateServicesController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    fetchWorkStateRecords(); // auto-fetch on init
+    fetchWorkStateRecords();
+    fetchCountries();
   }
 
   Future<void> fetchWorkStateRecords() async {
@@ -33,23 +38,54 @@ class StateServicesController extends GetxController
       final response = await http.get(Uri.parse(AppUrl.worldStateApi));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        casesModel.value = CasesModel.fromJson(data); // <-- set observable
+        casesModel.value = CasesModel.fromJson(data);
       } else {
         throw Exception('Failed to fetch');
       }
-    } catch (e) {
-      // You can handle error or log it
+    } catch (_) {
+      // swallow; UI shows "No data"
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<List<dynamic>> fetchCountries() async {
-    final response = await http.get(Uri.parse(AppUrl.worldCountries));
+  Future<List<CountryModel>> fetchCountries({bool forceRefresh = false}) async {
+    if (countries.isNotEmpty && !forceRefresh) return countries.toList();
+    try {
+      isCountriesLoading.value = true;
+      final response = await http.get(Uri.parse(AppUrl.worldCountries));
+      if (response.statusCode == 200) {
+        final List<dynamic> raw = jsonDecode(response.body);
+        final parsed = raw
+            .map((e) => CountryModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        countries.assignAll(parsed);
+        return parsed;
+      } else {
+        throw Exception('Failed to fetch countries');
+      }
+    } finally {
+      isCountriesLoading.value = false;
+    }
+  }
+
+  Future<HistoricalModel> fetchHistorical(String country,
+      {int days = 30}) async {
+    final response =
+        await http.get(Uri.parse(AppUrl.historicalApi(country, days: days)));
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return HistoricalModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to fetch countries');
+      throw Exception('Failed to fetch historical data');
+    }
+  }
+
+  Future<CountryModel> fetchCountry(String name) async {
+    final response = await http.get(Uri.parse(AppUrl.countryApi(name)));
+    if (response.statusCode == 200) {
+      return CountryModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to fetch country');
     }
   }
 }

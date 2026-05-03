@@ -1,10 +1,7 @@
-import 'dart:core';
-import 'package:covidapp/constant/responsive_config.dart';
-import 'package:covidapp/view/widgets/resuablerow_widget.dart';
+import 'package:covidapp/constant/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'dart:core';
 
-class DetailScreen extends StatefulWidget {
+class DetailScreen extends StatelessWidget {
   final String image;
   final String name;
   final int totalCases;
@@ -15,7 +12,8 @@ class DetailScreen extends StatefulWidget {
   final int todayRecovered;
   final int test;
 
-  DetailScreen({
+  const DetailScreen({
+    super.key,
     required this.image,
     required this.name,
     required this.totalCases,
@@ -28,92 +26,125 @@ class DetailScreen extends StatefulWidget {
   });
 
   @override
-  _DetailScreenState createState() => _DetailScreenState();
-}
-
-class _DetailScreenState extends State<DetailScreen> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Responsive(context).width * 0.04,
-            vertical: Responsive(context).height * 0.03,
+      backgroundColor: AppColors.background,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 220,
+            pinned: true,
+            backgroundColor: AppColors.primary,
+            foregroundColor: Colors.white,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(name,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: AppColors.heroGradient,
+                ),
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 40),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: image.isNotEmpty
+                          ? NetworkImage(image)
+                          : null,
+                      backgroundColor: Colors.white,
+                      child: image.isEmpty
+                          ? const Icon(Icons.flag, size: 36)
+                          : null,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-          child: _buildBody(context),
-        ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _statRow('Cases', totalCases, Icons.coronavirus,
+                    AppColors.info),
+                _statRow('Recovered', totalRecovered, Icons.healing,
+                    AppColors.success),
+                _statRow('Deaths', totalDeaths, Icons.warning_amber_rounded,
+                    AppColors.danger),
+                _statRow('Active', active, Icons.local_hospital,
+                    AppColors.warning),
+                _statRow('Critical', critical, Icons.priority_high_rounded,
+                    AppColors.critical),
+                _statRow('Today Recovered', todayRecovered, Icons.trending_up,
+                    AppColors.success),
+                _statRow(
+                    'Tests', test, Icons.science_outlined, AppColors.primary),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  /// AppBar
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      title: Text(widget.name),
-      centerTitle: true,
-    );
-  }
-
-  ///  Body
-  Widget _buildBody(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            _buildStatsCard(context),
-            _buildAvatar(),
-          ],
-        ),
-      ],
-    );
-  }
-
-  /// 🧱 Avatar Image
-  Widget _buildAvatar() {
-    return Positioned(
-      child: CircleAvatar(
-        radius: 50,
-        backgroundImage: NetworkImage(widget.image),
-      ),
-    );
-  }
-
-  /// 🧱 Stats Card
-  Widget _buildStatsCard(BuildContext context) {
+  Widget _statRow(String label, int value, IconData icon, Color color) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .067),
-      child: Card(
-        child: Column(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * .06),
-            _buildStats(),
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 22),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(label,
+                  style: const TextStyle(
+                      fontSize: 15,
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w500)),
+            ),
+            Text(
+              NumberFormatter.compact(value),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: color),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  /// 🧱 Rows inside the card
-  Widget _buildStats() {
-    return Column(
-      children: [
-        ReusableRow(title: 'Cases', value: widget.totalCases.toString()),
-        ReusableRow(
-            title: 'Recovered', value: widget.totalRecovered.toString()),
-        ReusableRow(title: 'Death', value: widget.totalDeaths.toString()),
-        ReusableRow(title: 'Critical', value: widget.critical.toString()),
-        ReusableRow(
-            title: 'Today Recovered', value: widget.todayRecovered.toString()),
-        ReusableRow(title: 'Tests', value: widget.test.toString()),
-        ReusableRow(title: 'Active', value: widget.active.toString()),
-      ],
     );
   }
 }
