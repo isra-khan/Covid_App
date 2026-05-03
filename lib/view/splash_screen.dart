@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
                   _buildRotatingVirus(),
                   const SizedBox(height: 32),
                   const Text(
-                    'Covid-19',
+                    'CoronaPulse',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 36,
@@ -40,11 +40,11 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'TRACKER',
+                    'COVID-19 TRACKER',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.white.withOpacity(0.85),
-                      letterSpacing: 8,
+                      letterSpacing: 6,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

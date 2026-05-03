@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: 'CoronaPulse',
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.home,
       getPages: AppPages.pages,
